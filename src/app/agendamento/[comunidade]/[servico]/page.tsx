@@ -102,7 +102,22 @@ export default function ServiceBookingPage() {
       
     } catch (error: any) {
       console.error('Erro ao carregar dados:', error)
-      setError('Não foi possível carregar os dados do serviço.')
+      // Fallback to mock data for development
+      const { mockCommunities, mockServices } = await import('@/lib/mock-data')
+      const community = mockCommunities.find(c => c.slug === communitySlug)
+      const service = mockServices.find(s => s.id === serviceId)
+      
+      if (community && service) {
+        setCommunity(community)
+        setService(service)
+        
+        // Set default date to tomorrow
+        const tomorrow = new Date()
+        tomorrow.setDate(tomorrow.getDate() + 1)
+        setSelectedDate(tomorrow.toISOString().split('T')[0])
+      } else {
+        setError('Serviço não encontrado.')
+      }
     } finally {
       setLoading(false)
     }
