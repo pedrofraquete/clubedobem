@@ -1,7 +1,8 @@
 'use client'
 
 import { Star, Plus, Heart } from 'lucide-react'
-import { useApp, Product } from '@/lib/store'
+import { useApp } from '@/lib/store'
+import { Product } from '@/lib/types'
 import Link from 'next/link'
 import { useState } from 'react'
 
