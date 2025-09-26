@@ -55,7 +55,7 @@ export function useProducts() {
         images: product.images || [],
         reviews: product.rating_count || 0,
         inStock: product.stock > 0,
-        seller_name: product.seller?.full_name || 'Vendedor',
+        seller_name: product.seller_name || 'Vendedor',
         category_name: product.category?.name || 'Categoria',
         badge: product.stock < 10 && product.stock > 0 ? 'Últimas unidades' : undefined,
         badgeColor: product.stock < 10 && product.stock > 0 ? 'bg-red-500' : undefined
