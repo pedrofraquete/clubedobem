@@ -30,7 +30,9 @@ export default function RootLayout({
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <AppProvider>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </AppProvider>
       </body>
     </html>
