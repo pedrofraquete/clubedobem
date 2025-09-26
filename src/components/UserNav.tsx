@@ -68,7 +68,7 @@ export default function UserNav() {
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/perfil/pedidos" className="flex items-center">
-            <ShoppingBag className="mr-2 h-4 w-4" />
+            <Package className="mr-2 h-4 w-4" />
             <span>Meus Pedidos</span>
           </Link>
         </DropdownMenuItem>
