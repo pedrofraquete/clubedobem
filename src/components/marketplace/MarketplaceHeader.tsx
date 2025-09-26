@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, User, Store, ShoppingCart, Menu, X } from 'lucide-react'
+import { Search, User, Store, ShoppingCart, Menu, X, Heart } from 'lucide-react'
 import Link from 'next/link'
 import CartIcon from './CartIcon'
 
