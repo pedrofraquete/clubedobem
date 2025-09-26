@@ -189,7 +189,10 @@ export default function ServiceBookingPage() {
       setTimeSlots(slots)
     } catch (error) {
       console.error('Erro ao carregar horários:', error)
-      setTimeSlots([])
+      // Fallback to mock data for development
+      const { generateMockTimeSlots } = await import('@/lib/mock-data')
+      const mockSlots = generateMockTimeSlots(service.id, selectedDate)
+      setTimeSlots(mockSlots)
     }
   }
 
