@@ -7,7 +7,6 @@ import CartIcon from './CartIcon'
 
 export default function MarketplaceHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [cartCount, setCartCount] = useState(3)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showVendorModal, setShowVendorModal] = useState(false)
 
