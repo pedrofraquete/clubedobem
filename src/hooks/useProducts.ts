@@ -30,6 +30,8 @@ export function useProducts() {
       setLoading(true)
       setError(null)
 
+      console.log('🔍 Fetching products from Supabase...')
+      
       const { data: productsData, error: productsError } = await supabase
         .from('products')
         .select(`
@@ -39,17 +41,27 @@ export function useProducts() {
         .eq('is_active', true)
         .order('created_at', { ascending: false })
 
-      if (productsError) throw productsError
+      console.log('📊 Supabase response:', { productsData, productsError })
+
+      if (productsError) {
+        console.error('❌ Supabase products error:', productsError)
+        throw productsError
+      }
 
       const { data: categoriesData, error: categoriesError } = await supabase
         .from('categories')
         .select('*')
         .order('name')
 
-      if (categoriesError) throw categoriesError
+      console.log('📂 Categories response:', { categoriesData, categoriesError })
+
+      if (categoriesError) {
+        console.error('❌ Supabase categories error:', categoriesError)
+        throw categoriesError
+      }
 
       // Transform products data
-      const transformedProducts = productsData.map((product: any): Product => ({
+      const transformedProducts = productsData?.map((product: any): Product => ({
         ...product,
         price: parseFloat(product.price),
         images: product.images || [],
@@ -59,11 +71,14 @@ export function useProducts() {
         category_name: product.category?.name || 'Categoria',
         badge: product.stock < 10 && product.stock > 0 ? 'Últimas unidades' : undefined,
         badgeColor: product.stock < 10 && product.stock > 0 ? 'bg-red-500' : undefined
-      }))
+      })) || []
+
+      console.log('✅ Transformed products:', transformedProducts.length, 'items')
 
       setProducts(transformedProducts)
       setCategories(categoriesData || [])
     } catch (err) {
+      console.error('💥 useProducts error:', err)
       setError(err instanceof Error ? err.message : 'Erro ao carregar produtos')
     } finally {
       setLoading(false)
