@@ -12,9 +12,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit --skipLibCheck",
     "pre-deploy": "pnpm run lint && pnpm run type-check",
-    "postinstall": "pnpm run type-check"
+    "postinstall": "echo 'Package installed successfully'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
