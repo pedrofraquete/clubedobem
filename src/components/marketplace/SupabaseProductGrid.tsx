@@ -4,10 +4,20 @@ import { useProducts } from '@/hooks/useProducts'
 import { useApp } from '@/lib/store'
 import ProductCard from './ProductCard'
 import { Loader2 } from 'lucide-react'
+import { useEffect } from 'react'
 
 export default function SupabaseProductGrid() {
   const { products, loading, error } = useProducts()
   const { state, dispatch } = useApp()
+  
+  useEffect(() => {
+    console.log('🎯 SupabaseProductGrid state:', { 
+      productsCount: products.length, 
+      loading, 
+      error,
+      firstProduct: products[0]?.name
+    })
+  }, [products, loading, error])
   
   // Filter products based on current filters
   const filteredProducts = products.filter(product => {
