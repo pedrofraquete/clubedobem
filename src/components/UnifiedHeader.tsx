@@ -206,7 +206,8 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
                       { label: 'Início', id: 'home' },
                       { label: 'Impacto', id: 'impact' },
                       { label: 'MultiMais', id: 'multimais' },
-                      { label: 'Parceiros', id: 'partners' }
+                      { label: 'Parceiros', id: 'partners' },
+                      { label: 'Agendamento', id: 'agendamento' }
                     ].map((item) => (
                       <button
                         key={item.id}
