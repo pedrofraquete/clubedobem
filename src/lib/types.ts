@@ -38,10 +38,10 @@ export interface AppState {
 
 export type Action =
   | { type: 'ADD_TO_CART'; payload: Product }
-  | { type: 'REMOVE_FROM_CART'; payload: number }
-  | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
+  | { type: 'REMOVE_FROM_CART'; payload: string }
+  | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
   | { type: 'CLEAR_CART' }
-  | { type: 'TOGGLE_FAVORITE'; payload: number }
+  | { type: 'TOGGLE_FAVORITE'; payload: string }
   | { type: 'UPDATE_FILTERS'; payload: Partial<Filters> }
   | { type: 'RESET_FILTERS' }
   | { type: 'LOAD_STATE'; payload: AppState }
