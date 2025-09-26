@@ -4,9 +4,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Star, Heart, Share2, ShoppingCart, Plus, Minus, MapPin, Shield, Truck } from 'lucide-react'
 import ProductGallery from './ProductGallery'
-import ProductReviews from './ProductReviews'
-import SellerInfo from './SellerInfo'
-import RelatedProducts from './RelatedProducts'
 
 interface ProductDetailProps {
   productId: string
