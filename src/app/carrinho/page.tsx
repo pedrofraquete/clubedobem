@@ -4,6 +4,7 @@ import { useApp, getCartTotal, getCartItemCount } from '@/lib/store'
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import UnifiedHeader from '@/components/UnifiedHeader'
 
 export default function CarrinhoPage() {
   const { state, dispatch } = useApp()
