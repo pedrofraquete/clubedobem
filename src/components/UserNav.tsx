@@ -6,7 +6,7 @@ import { useUserProfile } from '@/hooks/useUserProfile'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu'
-import { User, Settings, ShoppingBag, Heart, LogOut } from 'lucide-react'
+import { User, Settings, ShoppingBag, Heart, LogOut, Package } from 'lucide-react'
 import Link from 'next/link'
 
 export default function UserNav() {
