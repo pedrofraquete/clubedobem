@@ -104,10 +104,10 @@ export default function MarketplaceHeader() {
                   <Store className="w-5 h-5" />
                   <span>Vender</span>
                 </button>
-                <button className="flex items-center gap-3 text-gray-700">
-                  <ShoppingCart className="w-5 h-5" />
-                  <span>Carrinho ({cartCount})</span>
-                </button>
+                <div className="flex items-center gap-3 text-gray-700">
+                  <CartIcon />
+                  <span>Carrinho</span>
+                </div>
               </div>
             </div>
           )}
