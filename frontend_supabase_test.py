@@ -8,7 +8,6 @@ import requests
 import json
 import time
 import re
-from bs4 import BeautifulSoup
 
 class FrontendSupabaseTest:
     def __init__(self):
