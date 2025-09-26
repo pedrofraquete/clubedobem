@@ -71,13 +71,16 @@ export default function Header() {
             </li>
           </ul>
 
-          {/* CTA Button */}
-          <button
-            onClick={() => scrollToSection('partners')}
-            className="hidden md:block bg-gradient-to-r from-orange-400 via-teal-600 to-blue-400 text-white px-6 py-3 rounded-full font-semibold hover:transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-          >
-            Faça Parte
-          </button>
+          {/* CTA Button / User Navigation */}
+          <div className="hidden md:flex items-center gap-4">
+            <UserNav />
+            <button
+              onClick={() => scrollToSection('partners')}
+              className="bg-gradient-to-r from-orange-400 via-teal-600 to-blue-400 text-white px-6 py-3 rounded-full font-semibold hover:transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+            >
+              Faça Parte
+            </button>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
