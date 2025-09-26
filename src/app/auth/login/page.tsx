@@ -49,7 +49,7 @@ export default function LoginPage() {
       if (result.error) {
         setError(result.error.message)
       } else if (result.data.user && !isSignUp) {
-        router.push('/marketplace')
+        // Redirect will happen via useEffect
       } else if (isSignUp) {
         setError('Verifique seu email para confirmar a conta!')
       }
