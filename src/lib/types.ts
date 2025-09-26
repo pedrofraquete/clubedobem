@@ -31,7 +31,7 @@ export interface Filters {
 
 export interface AppState {
   cart: CartItem[]
-  favorites: number[]
+  favorites: string[]
   filters: Filters
   products: Product[]
 }
