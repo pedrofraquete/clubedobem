@@ -21,6 +21,12 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
   const isMarketplace = variant === 'marketplace' || pathname.includes('/marketplace') || pathname.includes('/carrinho') || pathname.includes('/favoritos')
 
   const scrollToSection = (sectionId: string) => {
+    // Special handling for agendamento
+    if (sectionId === 'agendamento') {
+      window.location.href = '/agendamento'
+      return
+    }
+    
     // If we're on marketplace, go to home first
     if (isMarketplace && !pathname.startsWith('/')) {
       window.location.href = `/#${sectionId}`
