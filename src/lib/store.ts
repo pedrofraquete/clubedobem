@@ -17,7 +17,7 @@ const initialState: AppState = {
   },
   products: [
     {
-      id: 1,
+      id: "1",
       name: 'Kit Marmitas Fitness Semanal - 14 Refeições',
       category: 'Alimentação',
       seller: 'Maria Silva',
@@ -33,7 +33,7 @@ const initialState: AppState = {
       inStock: true
     },
     {
-      id: 2,
+      id: "2",
       name: 'Curso Online de Maquiagem Profissional',
       category: 'Beleza',
       seller: 'Studio Belle',
