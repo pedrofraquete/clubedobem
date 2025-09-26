@@ -27,9 +27,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
-        <SimpleStoreProvider>
-          {children}
-        </SimpleStoreProvider>
+        {children}
       </body>
     </html>
   );
