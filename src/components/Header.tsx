@@ -94,7 +94,6 @@ export default function Header() {
               {[
                 { label: 'Início', id: 'home' },
                 { label: 'Impacto', id: 'impact' },
-                { label: 'Correios', id: 'correios' },
                 { label: 'MultiMais', id: 'multimais' },
                 { label: 'Parceiros', id: 'partners' }
               ].map((item) => (
@@ -106,6 +105,13 @@ export default function Header() {
                   {item.label}
                 </button>
               ))}
+              <Link
+                href="/correios"
+                className="text-left text-gray-700 font-medium hover:text-orange-400 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Correios
+              </Link>
               <Link
                 href="/marketplace"
                 className="text-left text-gray-700 font-medium hover:text-orange-400 transition-colors"
