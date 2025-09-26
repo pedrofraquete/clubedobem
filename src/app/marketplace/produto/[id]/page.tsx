@@ -13,7 +13,7 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1)
   const [isAdding, setIsAdding] = useState(false)
 
-  const productId = parseInt(params.id as string)
+  const productId = params.id as string
   const product = state.products.find(p => p.id === productId)
   const isFavorite = state.favorites.includes(productId)
 
