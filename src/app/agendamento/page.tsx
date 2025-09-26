@@ -40,6 +40,9 @@ export default function AgendamentoPage() {
       setCommunities(data || [])
     } catch (error) {
       console.error('Erro ao carregar comunidades:', error)
+      // Fallback to mock data for development
+      const { mockCommunities } = await import('@/lib/mock-data')
+      setCommunities(mockCommunities)
     } finally {
       setLoading(false)
     }
