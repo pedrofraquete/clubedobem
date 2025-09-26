@@ -4,6 +4,7 @@ import { useApp } from '@/lib/store'
 import { ArrowLeft, Heart } from 'lucide-react'
 import Link from 'next/link'
 import ProductCard from '@/components/marketplace/ProductCard'
+import UnifiedHeader from '@/components/UnifiedHeader'
 
 export default function FavoritosPage() {
   const { state } = useApp()
@@ -13,7 +14,9 @@ export default function FavoritosPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      <UnifiedHeader variant="marketplace" />
+      
+      {/* Page Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
