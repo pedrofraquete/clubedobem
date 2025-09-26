@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -36,7 +37,6 @@ export default function Header() {
             {[
               { label: 'Início', id: 'home' },
               { label: 'Impacto', id: 'impact' },
-              { label: 'Serviços', id: 'services' },
               { label: 'Correios', id: 'correios' },
               { label: 'MultiMais', id: 'multimais' },
               { label: 'Parceiros', id: 'partners' }
@@ -51,6 +51,15 @@ export default function Header() {
                 </button>
               </li>
             ))}
+            <li>
+              <Link
+                href="/marketplace"
+                className="text-gray-700 font-medium hover:text-orange-400 transition-colors relative group"
+              >
+                Marketplace
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-400 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+            </li>
           </ul>
 
           {/* CTA Button */}
@@ -77,7 +86,6 @@ export default function Header() {
               {[
                 { label: 'Início', id: 'home' },
                 { label: 'Impacto', id: 'impact' },
-                { label: 'Serviços', id: 'services' },
                 { label: 'Correios', id: 'correios' },
                 { label: 'MultiMais', id: 'multimais' },
                 { label: 'Parceiros', id: 'partners' }
@@ -90,6 +98,13 @@ export default function Header() {
                   {item.label}
                 </button>
               ))}
+              <Link
+                href="/marketplace"
+                className="text-left text-gray-700 font-medium hover:text-orange-400 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Marketplace
+              </Link>
             </div>
           </div>
         )}
