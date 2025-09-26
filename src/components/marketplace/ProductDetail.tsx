@@ -310,13 +310,13 @@ Ideal para quem busca praticidade sem abrir mão da qualidade nutricional. Todas
         </div>
 
         {/* Seller Info */}
-        <SellerInfo seller={product.seller} />
+        {/* <SellerInfo seller={product.seller} /> */}
 
         {/* Reviews */}
-        <ProductReviews productId={productId} rating={product.rating} reviewCount={product.reviews} />
+        {/* <ProductReviews productId={productId} rating={product.rating} reviewCount={product.reviews} /> */}
 
         {/* Related Products */}
-        <RelatedProducts currentProductId={productId} category={product.category} />
+        {/* <RelatedProducts currentProductId={productId} category={product.category} /> */}
       </div>
     </div>
   )
