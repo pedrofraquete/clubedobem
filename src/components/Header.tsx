@@ -37,7 +37,6 @@ export default function Header() {
             {[
               { label: 'Início', id: 'home' },
               { label: 'Impacto', id: 'impact' },
-              { label: 'Correios', id: 'correios' },
               { label: 'MultiMais', id: 'multimais' },
               { label: 'Parceiros', id: 'partners' }
             ].map((item) => (
@@ -51,6 +50,15 @@ export default function Header() {
                 </button>
               </li>
             ))}
+            <li>
+              <Link
+                href="/correios"
+                className="text-gray-700 font-medium hover:text-orange-400 transition-colors relative group"
+              >
+                Correios
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-400 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+            </li>
             <li>
               <Link
                 href="/marketplace"
