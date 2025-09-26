@@ -1,15 +1,16 @@
 <analysis>
-The previous AI engineer began by clarifying the project stack, confirming it's a Next.js 15, TypeScript, Radix/Shadcn/UI frontend-only application, not a FastAPI/React project as initially assumed. Debugging efforts resolved critical environment issues, including supervisor service failures, identifying the lack of a backend, and fixing port conflicts to ensure the application ran correctly on port 3000. A major challenge was stabilizing global state management, leading to temporary  routes and extensive build debugging. The  issue on the main  route was successfully resolved. Subsequently, the full cart system was debugged and confirmed functional. The most recent work involved implementing a new Correios feature, adding navigation and iframe-based tracking/Postair pages, which was also successfully completed and verified.
+The trajectory outlines the transition of a Next.js 15 frontend-only application, initially built by a previous AI engineer, to integrate with Supabase. The previous work involved stabilizing the frontend state (cart, favorites), debugging build issues, and implementing a Correios feature with iframes. The current expert engineer's task began with the explicit user request to migrate the application to Supabase, focusing on authentication and dynamic product data. This involved setting up Supabase environment variables, installing dependencies, generating types, and implementing core authentication components. A significant portion of the work revolved around iteratively defining and debugging SQL schema scripts with the user due to foreign key and  constraints related to product sellers. Although the Supabase database setup with sample products was eventually successful, the application is currently facing connection timeouts when trying to load the marketplace, indicating an issue with fetching data from Supabase.
 </analysis>
 
 <product_requirements>
-The application is a Next.js 15 Marketplace Social platform with a community impact focus. Initially, it had a visual-only marketplace. The user requested frontend improvements, leading to the implementation of:
+The application is a Next.js 15 Marketplace Social platform with a community impact focus. Initial requirements included a visual-only marketplace, evolving into a need for:
 1.  **Real Cart System**: Persistence via , dynamic counter, and a dedicated cart page.
 2.  **Functional Filters**: For search, categories, price, and ratings (search implemented, others pending).
 3.  **Product Detail Pages**: For individual products (scaffolded, details pending).
 4.  **Favorites System**: To add/remove items and persist state.
 5.  **UX Improvements**: Loading states, animations, visual feedback (basic visual feedback for cart/favorites implemented).
-6.  **Correios Integration**: A new section for Correios (Post Office) with two sub-pages: RASTREIOS (Tracking) and POSTAIR, each displaying an external iframe ( and ).
+6.  **Correios Integration**: A new section with Rastreios (Tracking) and POSTAIR sub-pages displaying external iframes.
+The user later explicitly requested to **connect with Supabase** to implement all four functionalities (implying completing cart, filters, product details, and favorites using Supabase) and migrate the existing system to use Supabase as the backend, including authentication and dynamic products.
 </product_requirements>
 
 <key_technical_concepts>
@@ -18,49 +19,54 @@ The application is a Next.js 15 Marketplace Social platform with a community imp
 - **React Context API /  / **: State management.
 - **Radix/Shadcn/UI**: UI components.
 - **Tailwind CSS**: Styling framework.
-- ****: Client-side data persistence.
+- ****: Client-side data persistence (pre-Supabase).
 - **pnpm**: Package manager.
+- **Supabase**: Backend-as-a-Service, including authentication and PostgreSQL database.
+- **SQL / PostgreSQL**: Database schema definition and data manipulation.
+- **Row Level Security (RLS)**: Supabase feature for data access control.
 </key_technical_concepts>
 
 <code_architecture>
-The application is a Next.js frontend structure. There is no explicit backend or database.
+The application utilizes a Next.js 15 frontend structure, initially without a dedicated backend, now integrating Supabase.
 
-**Directory Structure (Simplified):**
+**Directory Structure (Simplified with new additions):**
 
 
 **Key Files and Changes:**
 
--   : **Importance**: Manages global state (cart, favorites). **Changes**: Multiple iterations, including temporary files, to resolve TypeScript errors and server crashes. Stabilized with  in .
--   : **Importance**: Centralizes TypeScript type definitions. **Changes**: Created to organize types.
--   : **Importance**: Root layout for Next.js. **Changes**:  was added to wrap , resolving useApp must be used within AppProvider error.
--   : **Importance**: Placeholder for product details. **Changes**: Imports and JSX references to non-existent components (, , ) were commented out to fix build errors.
--   : **Importance**: Defines project dependencies and scripts. **Changes**:  script modified from  to  to enforce port 3000.
--   : **Importance**: Next.js configuration. **Changes**: Cleaned up;  removed as it was conflicting.
--   : **Importance**: Main Correios page. **Changes**: Created to contain links/buttons to Rastreios and Postair.
--   : **Importance**: Tracking page. **Changes**: Created to embed the  iframe.
--   : **Importance**: Postair platform page. **Changes**: Created to embed the  iframe.
--   : **Importance**: Main application header. **Changes**: Modified to include a direct navigation link to  in both desktop and mobile menus.
--   : **Importance**: Initially a simplified, working marketplace for debugging. **Changes**: Was used as a functional testbed; now main  is also functional.
+*   : **Importance**: Stores Supabase API URL and keys (, ). **Changes**: Created to hold sensitive Supabase credentials.
+*   : **Importance**: Initializes the Supabase client for use throughout the application. **Changes**: Created to establish a client-side Supabase connection.
+*   : **Importance**: Defines TypeScript types for Supabase database tables, improving type safety. **Changes**: Created manually with basic types after CLI generation failed.
+*   : **Importance**: Manages user authentication state using Supabase. **Changes**: Created to provide authentication context to the application.
+*   : **Importance**: Handles Supabase authentication callbacks, typically after social logins. **Changes**: Created as an API route for authentication redirects.
+*   : **Importance**: Provides a user interface for login and signup. **Changes**: Created as a basic login page.
+*   : **Importance**: Custom hook to fetch and manage the authenticated user's profile data from Supabase. **Changes**: Created for user profile management.
+*   : **Importance**: Displays user avatar and dropdown menu in the header, leveraging authentication status. **Changes**: Created to integrate user profile visuals.
+*   : **Importance**: Custom hook to fetch product data from the Supabase  table. **Changes**: Created to retrieve dynamic product listings.
+*   : **Importance**: A wrapper component that fetches product data from Supabase using  and passes it to the  component. **Changes**: Created to integrate Supabase data fetching into the marketplace.
+*   : **Importance**: A temporary page intended to programmatically run database setup scripts (later moved to manual user execution). **Changes**: Created, but its intended function was superseded by manual SQL execution.
+*   : **Importance**: Defines the Supabase PostgreSQL database schema (tables like , , , , , , ), RLS policies, and triggers. **Changes**: Created and iteratively corrected (SQL 1, SQL 3, SQL 5) to resolve foreign key and  constraints, particularly for  and adding .
+*   : **Importance**: Populates the Supabase database with example product data. **Changes**: Created and iteratively corrected (SQL 2, SQL 4) to align with schema changes for  and removal of  NOT NULL constraint.
+*   : **Importance**: Provides detailed instructions and the final SQL scripts for the user to execute manually in the Supabase SQL Editor. **Changes**: Created to guide the user through the database setup.
+*   : **Importance**: Manages project dependencies. **Changes**: Added , , .
+*   : **Importance**: Root layout for Next.js. **Changes**: Wrapped  with  (renamed to ) to make authentication state available globally.
+*   : **Importance**: Main application header. **Changes**: Modified to include the  component for displaying user information and login/logout options.
+*   : **Importance**: Displays a grid of products. **Changes**: Modified to accept products as a prop, rather than fetching them directly, allowing  to manage data fetching.
+*   : **Importance**: The main marketplace page. **Changes**: Modified to use the new  component instead of directly rendering .
 
 </code_architecture>
 
 <pending_tasks>
-- Add more products to the marketplace.
 - Complete the detailed product pages ().
 - Implement a full-fledged ordering system.
 - Implement functional filters beyond basic search (e.g., categories, price, ratings).
+- Resolve the current marketplace loading issue (connection timeout) after Supabase integration.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer successfully implemented the Correios functionality. This involved:
-1.  **Header Navigation**: Adding a direct link to a new  page in the  for both desktop and mobile views.
-2.  **Correios Landing Page**: Creating  which serves as a hub for the new features.
-3.  **Tracking Page ()**: Creating  and embedding an iframe pointing to .
-4.  **Postair Page**: Creating  and embedding an iframe pointing to .
-
-All these new pages and their iframe contents were verified via screenshots to be loading and displaying correctly. This latest feature addition ensures users can access external tracking and platform functionalities directly within the application. The application is running on port 3000, and the marketplace (including search, cart, and favorites) is fully functional.
+Immediately prior to this summary request, the AI engineer was focused on completing the Supabase integration, specifically ensuring that the database schema was correctly set up and populated with sample product data, and that the marketplace could fetch these products. This involved a detailed back-and-forth with the user to execute multiple iterations of SQL scripts (, ) in the Supabase SQL Editor. Several errors were encountered and corrected, primarily revolving around foreign key constraints for  and the missing  column in the  table. The latest SQL scripts provided ( and ) were successfully executed by the user, and the  hook and  components were updated to reflect these schema changes. However, subsequent attempts to load the  page after server restarts resulted in connection timeouts, indicating an issue with fetching products from the newly configured Supabase backend.
 </current_work>
 
 <optional_next_step>
-Expand the marketplace by adding more products and completing the detailed product pages.
+Investigate and resolve the connection timeout issue preventing the  page from loading products from Supabase.
 </optional_next_step>
