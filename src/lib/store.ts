@@ -48,7 +48,7 @@ const initialState: AppState = {
       inStock: true
     },
     {
-      id: 3,
+      id: "3",
       name: 'Bolsa Ecológica Feita à Mão',
       category: 'Artesanato',
       seller: 'EcoArte Collective',
@@ -61,7 +61,7 @@ const initialState: AppState = {
       inStock: true
     },
     {
-      id: 4,
+      id: "4",
       name: 'Aula de Violão - Pacote Mensal',
       category: 'Serviços',
       seller: 'João Music',
@@ -75,7 +75,7 @@ const initialState: AppState = {
       inStock: true
     },
     {
-      id: 5,
+      id: "5",
       name: 'Camiseta Personalizada - Clube do Bem',
       category: 'Moda',
       seller: 'Fashion Local',
@@ -89,7 +89,7 @@ const initialState: AppState = {
       inStock: true
     },
     {
-      id: 6,
+      id: "6",
       name: 'Consulta Online com Nutricionista',
       category: 'Saúde',
       seller: 'Dra. Ana Santos',
