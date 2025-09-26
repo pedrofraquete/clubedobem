@@ -1,5 +1,6 @@
 import MarketplaceHeader from '@/components/marketplace/MarketplaceHeader'
 import MarketplaceHero from '@/components/marketplace/MarketplaceHero'
+import SearchBar from '@/components/marketplace/SearchBar'
 import ProductGrid from '@/components/marketplace/ProductGrid'
 import VendorSection from '@/components/marketplace/VendorSection'
 import PaymentSection from '@/components/marketplace/PaymentSection'
@@ -10,7 +11,10 @@ export default function MarketplacePage() {
     <main className="min-h-screen bg-gray-50">
       <MarketplaceHeader />
       <MarketplaceHero />
-      <ProductGrid />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <SearchBar />
+        <ProductGrid />
+      </div>
       <VendorSection />
       <PaymentSection />
       <MarketplaceFooter />
