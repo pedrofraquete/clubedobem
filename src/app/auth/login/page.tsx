@@ -15,8 +15,26 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
-  const { signIn, signUp, signInWithProvider } = useAuth()
+  const { signIn, signUp, signInWithProvider, user } = useAuth()
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  // Get redirect parameters
+  const redirectTo = searchParams?.get('redirect') || '/marketplace'
+  const selectedDate = searchParams?.get('date')
+  const selectedTime = searchParams?.get('time')
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      // If there are booking parameters, redirect back to booking with them
+      if (redirectTo && selectedDate && selectedTime) {
+        router.push(`${redirectTo}?date=${selectedDate}&time=${selectedTime}`)
+      } else {
+        router.push(redirectTo)
+      }
+    }
+  }, [user, router, redirectTo, selectedDate, selectedTime])
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault()
