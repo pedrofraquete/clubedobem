@@ -11,11 +11,11 @@ export default function CarrinhoPage() {
   const total = getCartTotal(state.cart)
   const itemCount = getCartItemCount(state.cart)
 
-  const handleQuantityChange = (id: number, quantity: number) => {
+  const handleQuantityChange = (id: string, quantity: number) => {
     dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } })
   }
 
-  const handleRemoveItem = (id: number) => {
+  const handleRemoveItem = (id: string) => {
     dispatch({ type: 'REMOVE_FROM_CART', payload: id })
   }
 
