@@ -73,15 +73,7 @@ export default function MarketplaceHeader() {
                 <span className="text-xs">Vender</span>
               </button>
               
-              <button className="flex flex-col items-center gap-1 text-gray-700 hover:text-orange-400 transition-colors relative">
-                <ShoppingCart className="w-6 h-6" />
-                <span className="text-xs">Carrinho</span>
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </button>
+              <CartIcon />
             </div>
 
             {/* Mobile Menu Button */}
