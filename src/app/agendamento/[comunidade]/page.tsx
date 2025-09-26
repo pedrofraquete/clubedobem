@@ -68,7 +68,16 @@ export default function CommunityServicesPage() {
       setServices(servicesData || [])
     } catch (error: any) {
       console.error('Erro ao carregar dados:', error)
-      setError('Não foi possível carregar os serviços desta comunidade.')
+      // Fallback to mock data for development
+      const { mockCommunities, mockServices } = await import('@/lib/mock-data')
+      const community = mockCommunities.find(c => c.slug === communitySlug)
+      if (community) {
+        setCommunity(community)
+        const communityServices = mockServices.filter(s => s.community_id === community.id)
+        setServices(communityServices)
+      } else {
+        setError('Comunidade não encontrada.')
+      }
     } finally {
       setLoading(false)
     }
