@@ -1,3 +1,5 @@
+'use client'
+
 export default function Partners() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
