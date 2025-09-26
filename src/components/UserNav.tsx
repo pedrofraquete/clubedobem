@@ -63,19 +63,32 @@ export default function UserNav() {
         <DropdownMenuItem asChild>
           <Link href="/perfil" className="flex items-center">
             <User className="mr-2 h-4 w-4" />
-            <span>Perfil</span>
+            <span>Meu Perfil</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/perfil/pedidos" className="flex items-center">
+            <ShoppingBag className="mr-2 h-4 w-4" />
+            <span>Meus Pedidos</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/carrinho" className="flex items-center">
             <ShoppingBag className="mr-2 h-4 w-4" />
-            <span>Meu Carrinho</span>
+            <span>Carrinho</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/favoritos" className="flex items-center">
             <Heart className="mr-2 h-4 w-4" />
             <span>Favoritos</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/perfil/configuracoes" className="flex items-center">
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Configurações</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
