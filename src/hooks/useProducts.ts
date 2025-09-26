@@ -34,7 +34,6 @@ export function useProducts() {
         .from('products')
         .select(`
           *,
-          seller:users(full_name),
           category:categories(name, slug)
         `)
         .eq('is_active', true)
