@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
+import UserNav from './UserNav'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
