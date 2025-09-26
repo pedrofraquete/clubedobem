@@ -73,6 +73,11 @@ export default function MarketplaceHeader() {
                 <span className="text-xs">Vender</span>
               </button>
               
+              <Link href="/favoritos" className="flex flex-col items-center gap-1 text-gray-700 hover:text-orange-400 transition-colors">
+                <Heart className="w-6 h-6" />
+                <span className="text-xs">Favoritos</span>
+              </Link>
+              
               <CartIcon />
             </div>
 
