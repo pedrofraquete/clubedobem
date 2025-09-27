@@ -182,7 +182,7 @@
                 
                 if (isSignUp) {
                     // Cadastro
-                    result = await supabase.auth.signUp({
+                    result = await supabaseClient.auth.signUp({
                         email: email,
                         password: password,
                         options: {
@@ -202,7 +202,7 @@
                     }
                 } else {
                     // Login
-                    result = await supabase.auth.signInWithPassword({
+                    result = await supabaseClient.auth.signInWithPassword({
                         email: email,
                         password: password
                     })
