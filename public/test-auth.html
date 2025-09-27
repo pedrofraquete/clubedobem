@@ -210,9 +210,12 @@
                         password: password
                     })
                     
+                    console.log('Login result:', result)
                     if (result.error) {
+                        console.error('Login error:', result.error)
                         showMessage(result.error.message)
                     } else {
+                        console.log('Login success:', result.data)
                         showMessage('Login realizado com sucesso! Redirecionando...', 'success')
                         setTimeout(() => {
                             window.location.href = '/marketplace'
