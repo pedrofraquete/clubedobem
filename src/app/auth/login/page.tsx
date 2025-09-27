@@ -126,8 +126,10 @@ export default function LoginPage() {
             <Button
               variant="link"
               onClick={() => {
+                console.log('Toggle clicked, current isSignUp:', isSignUp)
                 setIsSignUp(!isSignUp)
                 setError('')
+                console.log('Toggle clicked, new isSignUp:', !isSignUp)
               }}
               data-testid="toggle-signup"
             >
