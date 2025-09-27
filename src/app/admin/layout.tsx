@@ -2,17 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase'
 import { Sidebar } from '@/components/admin/Sidebar'
 import { AdminHeader } from '@/components/admin/AdminHeader'
 import { Toaster } from '@/components/ui/sonner'
-
-// Demo user para demonstração do sistema admin
-const DEMO_ADMIN_USER = {
-  id: 'demo-admin-123',
-  email: 'admin@demo.com',
-  role: 'admin',
-  full_name: 'Administrador Demo'
-}
 
 interface User {
   id: string
@@ -31,13 +24,39 @@ export default function AdminLayout({
   const router = useRouter()
 
   useEffect(() => {
-    // Para demonstração, vamos usar um usuário demo admin
-    // Em produção, isso seria verificado com autenticação real
-    setTimeout(() => {
-      setUser(DEMO_ADMIN_USER)
-      setLoading(false)
-    }, 1000)
+    checkUser()
   }, [])
+
+  const checkUser = async () => {
+    try {
+      const supabase = createClient()
+      const { data: { session } } = await supabase.auth.getSession()
+
+      if (!session) {
+        router.push('/auth/login?redirect=/admin')
+        return
+      }
+
+      // Verificar se o usuário tem role de admin
+      const { data: userData, error } = await supabase
+        .from('users')
+        .select('id, email, role, full_name')
+        .eq('id', session.user.id)
+        .single()
+
+      if (error || !userData || userData.role !== 'admin') {
+        router.push('/?error=access-denied')
+        return
+      }
+
+      setUser(userData)
+    } catch (error) {
+      console.error('Erro ao verificar usuário:', error)
+      router.push('/auth/login?redirect=/admin')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   if (loading) {
     return (
@@ -45,7 +64,6 @@ export default function AdminLayout({
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Verificando acesso administrativo...</p>
-          <p className="text-sm text-gray-500 mt-2">Sistema Demo - Carregando usuário admin</p>
         </div>
       </div>
     )
