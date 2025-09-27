@@ -83,11 +83,10 @@ export default function LoginPage() {
               Email *
             </label>
             <input
+              ref={emailRef}
               id="email"
               type="email"
               placeholder="seu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               required
               data-testid="email-input"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -100,11 +99,10 @@ export default function LoginPage() {
               Senha * (mínimo 6 caracteres)
             </label>
             <input
+              ref={passwordRef}
               id="password"
               type="password"
               placeholder="Sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
               data-testid="password-input"
