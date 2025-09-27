@@ -155,8 +155,8 @@ export default function LoginPage() {
         
         {/* Debug info */}
         <div className="mt-4 p-2 bg-gray-100 rounded text-xs" style={{display: 'block'}}>
-          <div>Email: {email}</div>
-          <div>Password length: {password.length}</div>
+          <div>Email Ref: {emailRef.current?.value || 'empty'}</div>
+          <div>Password Ref: {passwordRef.current?.value?.length || 0} chars</div>
           <div>IsSignUp: {isSignUp ? 'true' : 'false'}</div>
           <div>Loading: {loading ? 'true' : 'false'}</div>
           <div>Mounted: {mounted ? 'true' : 'false'}</div>
