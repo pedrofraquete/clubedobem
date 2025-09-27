@@ -192,9 +192,12 @@
                         }
                     })
                     
+                    console.log('SignUp result:', result)
                     if (result.error) {
+                        console.error('SignUp error:', result.error)
                         showMessage(result.error.message)
                     } else {
+                        console.log('SignUp success:', result.data)
                         showMessage('Conta criada com sucesso! Você pode fazer login agora.', 'success')
                         toggleMode()
                         emailInput.value = ''
