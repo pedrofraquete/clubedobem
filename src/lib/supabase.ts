@@ -8,19 +8,7 @@ function getEnvVar(name: string, defaultValue?: string): string {
     return defaultValue || ''
   }
   
-  // Verificar se contém caracteres não-ASCII que podem causar problemas nos headers
-  try {
-    // Validar se a string contém apenas caracteres ASCII válidos
-    if (!/^[\x00-\x7F]*$/.test(value)) {
-      console.warn(`Caracteres especiais detectados em ${name}, aplicando correção`)
-      // Remover caracteres não-ASCII
-      return value.replace(/[^\x00-\x7F]/g, '')
-    }
-    return value
-  } catch (error) {
-    console.warn(`Erro ao processar ${name}:`, error)
-    return defaultValue || ''
-  }
+  return value.trim()
 }
 
 // Usar valores padrão para desenvolvimento quando as variáveis não estiverem disponíveis
