@@ -12,15 +12,21 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
-  const { signIn, signUp, user } = useAuth()
+  const [mounted, setMounted] = useState(false)
+  const { signIn, signUp, user, loading: authLoading } = useAuth()
   const router = useRouter()
 
-  // Redirect if already logged in
+  // Prevent hydration issues by only running effects after mount
   useEffect(() => {
-    if (user) {
+    setMounted(true)
+  }, [])
+
+  // Redirect if already logged in (only after hydration is complete)
+  useEffect(() => {
+    if (mounted && !authLoading && user) {
       router.push('/marketplace')
     }
-  }, [user, router])
+  }, [mounted, authLoading, user, router])
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault()
