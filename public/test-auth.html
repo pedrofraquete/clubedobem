@@ -120,7 +120,8 @@
         // Inicializar Supabase
         const supabaseUrl = 'https://nbegwhqnlafwkxcoppyk.supabase.co'
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5iZWd3aHFubGFmd2t4Y29wcHlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5MTg2MjUsImV4cCI6MjA3NDQ5NDYyNX0.vBinoo6UH9aBgEn_f4t0zP_ueEo5UUzzW1o122a2VPQ'
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey)
+        const { createClient } = supabase
+        const supabaseClient = createClient(supabaseUrl, supabaseKey)
 
         let isSignUp = false
 
