@@ -229,7 +229,7 @@
         })
 
         // Verificar se já está logado
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        supabaseClient.auth.getSession().then(({ data: { session } }) => {
             if (session) {
                 showMessage('Usuário já está logado! Redirecionando...', 'success')
                 setTimeout(() => {
