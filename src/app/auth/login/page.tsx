@@ -60,14 +60,6 @@ function LoginForm() {
     }
   }
 
-  const handleSocialLogin = async (provider: 'google' | 'github') => {
-    try {
-      await signInWithProvider(provider)
-    } catch (err) {
-      setError('Erro ao fazer login com ' + provider)
-    }
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <Card className="w-full max-w-md">
@@ -77,14 +69,14 @@ function LoginForm() {
           </CardTitle>
           <p className="text-sm text-muted-foreground text-center">
             {isSignUp 
-              ? 'Crie sua conta para começar a comprar' 
-              : 'Entre com sua conta ou crie uma nova'}
+              ? 'Crie sua conta para acessar o sistema' 
+              : 'Entre com seu email e senha'}
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
           <form onSubmit={handleEmailAuth} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Email *</Label>
               <Input
                 id="email"
                 type="email"
@@ -92,10 +84,11 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                data-testid="email-input"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Senha</Label>
+              <Label htmlFor="password">Senha * (mínimo 6 caracteres)</Label>
               <Input
                 id="password"
                 type="password"
@@ -104,34 +97,21 @@ function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
+                data-testid="password-input"
               />
             </div>
             {error && (
-              <p className="text-sm text-red-600 text-center">{error}</p>
+              <p className="text-sm text-red-600 text-center" data-testid="error-message">{error}</p>
             )}
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={loading}
+              data-testid="submit-button"
+            >
               {loading ? 'Aguarde...' : (isSignUp ? 'Criar conta' : 'Entrar')}
             </Button>
           </form>
-          
-          <Separator />
-          
-          <div className="space-y-2">
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => handleSocialLogin('google')}
-            >
-              Continuar com Google
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => handleSocialLogin('github')}
-            >
-              Continuar com GitHub
-            </Button>
-          </div>
           
           <div className="text-center">
             <Button
@@ -140,12 +120,21 @@ function LoginForm() {
                 setIsSignUp(!isSignUp)
                 setError('')
               }}
+              data-testid="toggle-signup"
             >
               {isSignUp 
                 ? 'Já tem conta? Faça login' 
                 : 'Não tem conta? Cadastre-se'}
             </Button>
           </div>
+          
+          {isSignUp && (
+            <div className="text-center">
+              <p className="text-xs text-gray-600">
+                Ao criar sua conta, você poderá acessar agendamentos e outras funcionalidades do sistema.
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
