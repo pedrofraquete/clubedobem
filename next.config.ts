@@ -23,13 +23,18 @@ const nextConfig: NextConfig = {
   // Configurações externas do servidor
   serverExternalPackages: ["@supabase/supabase-js"],
 
-  // Configurações experimentais estáveis
+  // Configurações experimentais para performance
   experimental: {
     typedRoutes: false, // Desabilitado para evitar conflitos
+    optimizeCss: true, // Otimização de CSS
+    scrollRestoration: true, // Restauração de scroll otimizada
+    legacyBrowsers: false, // Remove suporte para browsers antigos
+    browsersListForSwc: true, // Usa browserslist para SWC
+    forceSwcTransforms: true, // Força uso do SWC para melhor performance
   },
 
-  // Configurações de webpack para resolver problemas comuns
-  webpack: (config, { isServer }) => {
+  // Configurações de webpack para resolver problemas comuns e otimizações
+  webpack: (config, { isServer, dev }) => {
     // Resolver problemas com módulos Node.js
     if (!isServer) {
       config.resolve.fallback = {
@@ -41,14 +46,65 @@ const nextConfig: NextConfig = {
       };
     }
 
-    // Otimizações de bundle
+    // Otimizações avançadas de bundle para performance
     config.optimization = {
       ...config.optimization,
       splitChunks: {
-        ...config.optimization.splitChunks,
         chunks: "all",
+        minSize: 20000,
+        minRemainingSize: 0,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        enforceSizeThreshold: 50000,
+        cacheGroups: {
+          // Vendor chunk for third-party libraries
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendors",
+            priority: 10,
+            chunks: "all",
+            enforce: true,
+          },
+          // UI components chunk
+          ui: {
+            test: /[\\/]src[\\/]components[\\/]ui[\\/]/,
+            name: "ui-components",
+            priority: 20,
+            chunks: "all",
+            minChunks: 2,
+          },
+          // Admin pages chunk (heavy components)
+          admin: {
+            test: /[\\/]src[\\/]app[\\/]admin[\\/]/,
+            name: "admin-pages",
+            priority: 15,
+            chunks: "all",
+          },
+          // Marketplace chunk
+          marketplace: {
+            test: /[\\/]src[\\/](app|components)[\\/]marketplace[\\/]/,
+            name: "marketplace",
+            priority: 15,
+            chunks: "all",
+          },
+          // Common chunk for shared components
+          common: {
+            name: "common",
+            minChunks: 2,
+            priority: 5,
+            chunks: "all",
+            enforce: true,
+          },
+        },
       },
     };
+
+    // Tree shaking optimizations
+    if (!dev) {
+      config.optimization.usedExports = true;
+      config.optimization.sideEffects = false;
+    }
 
     return config;
   },
