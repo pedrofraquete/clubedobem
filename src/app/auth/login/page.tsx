@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-function LoginForm() {
+export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -14,24 +14,13 @@ function LoginForm() {
   const [isSignUp, setIsSignUp] = useState(false)
   const { signIn, signUp, user } = useAuth()
   const router = useRouter()
-  const searchParams = useSearchParams()
-
-  // Get redirect parameters
-  const redirectTo = searchParams?.get('redirect') || '/marketplace'
-  const selectedDate = searchParams?.get('date')
-  const selectedTime = searchParams?.get('time')
 
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      // If there are booking parameters, redirect back to booking with them
-      if (redirectTo && selectedDate && selectedTime) {
-        router.push(`${redirectTo}?date=${selectedDate}&time=${selectedTime}`)
-      } else {
-        router.push(redirectTo)
-      }
+      router.push('/marketplace')
     }
-  }, [user, router, redirectTo, selectedDate, selectedTime])
+  }, [user, router])
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,7 +37,10 @@ function LoginForm() {
       } else if (result.data.user && !isSignUp) {
         // Redirect will happen via useEffect
       } else if (isSignUp) {
-        setError('Verifique seu email para confirmar a conta!')
+        setError('Conta criada! Você pode fazer login agora.')
+        setIsSignUp(false)
+        setEmail('')
+        setPassword('')
       }
     } catch (err) {
       setError('Erro inesperado. Tente novamente.')
@@ -73,8 +65,10 @@ function LoginForm() {
         <CardContent className="space-y-4">
           <form onSubmit={handleEmailAuth} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email *</Label>
-              <Input
+              <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Email *
+              </label>
+              <input
                 id="email"
                 type="email"
                 placeholder="seu@email.com"
@@ -82,11 +76,14 @@ function LoginForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 data-testid="email-input"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Senha * (mínimo 6 caracteres)</Label>
-              <Input
+              <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Senha * (mínimo 6 caracteres)
+              </label>
+              <input
                 id="password"
                 type="password"
                 placeholder="Sua senha"
@@ -95,6 +92,7 @@ function LoginForm() {
                 required
                 minLength={6}
                 data-testid="password-input"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               />
             </div>
             {error && (
@@ -135,13 +133,5 @@ function LoginForm() {
         </CardContent>
       </Card>
     </div>
-  )
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Carregando...</div>}>
-      <LoginForm />
-    </Suspense>
   )
 }
