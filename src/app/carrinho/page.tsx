@@ -1,6 +1,6 @@
 'use client'
 
-import { useApp, getCartTotal, getCartItemCount } from '@/lib/store'
+import { useApp, getCartTotal, getCartItemCount } from '@/lib/simple-store'
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'

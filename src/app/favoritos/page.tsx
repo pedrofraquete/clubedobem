@@ -1,6 +1,6 @@
 'use client'
 
-import { useApp } from '@/lib/store'
+import { useApp } from '@/lib/simple-store'
 import { ArrowLeft, Heart } from 'lucide-react'
 import Link from 'next/link'
 import ProductCard from '@/components/marketplace/ProductCard'

@@ -1,7 +1,7 @@
 'use client'
 
 import { Search, Filter } from 'lucide-react'
-import { useApp } from '@/lib/store'
+import { useApp } from '@/lib/simple-store'
 import { useState, useEffect } from 'react'
 
 export default function SearchBar() {

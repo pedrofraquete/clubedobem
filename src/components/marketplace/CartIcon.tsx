@@ -1,7 +1,7 @@
 'use client'
 
 import { ShoppingCart } from 'lucide-react'
-import { useApp, getCartItemCount } from '@/lib/store'
+import { useApp, getCartItemCount } from '@/lib/simple-store'
 import Link from 'next/link'
 
 export default function CartIcon() {

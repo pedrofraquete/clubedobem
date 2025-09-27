@@ -1,6 +1,6 @@
 'use client'
 
-import { useApp } from '@/lib/store'
+import { useApp } from '@/lib/simple-store'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft, Star, Heart, Plus, Minus, Shield, Truck, MessageCircle } from 'lucide-react'
 import Link from 'next/link'

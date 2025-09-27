@@ -1,6 +1,6 @@
 'use client'
 
-import { useApp, getFilteredProducts } from '@/lib/store'
+import { useApp, getFilteredProducts } from '@/lib/simple-store'
 import ProductCard from './ProductCard'
 
 export default function ProductGrid() {

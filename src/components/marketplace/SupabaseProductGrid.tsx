@@ -1,7 +1,7 @@
 'use client'
 
 import { useProducts } from '@/hooks/useProducts'
-import { useApp } from '@/lib/store'
+import { useApp } from '@/lib/simple-store'
 import ProductCard from './ProductCard'
 import { Loader2 } from 'lucide-react'
 import { useEffect } from 'react'
