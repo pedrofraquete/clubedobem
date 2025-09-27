@@ -127,7 +127,14 @@ export default function EventsPage() {
 
   const updateEventStatus = async (eventId: string, newStatus: string) => {
     try {
-      // Em produção, isso seria uma update no Supabase
+      const supabase = createClient()
+      const { error } = await supabase
+        .from('events')
+        .update({ status: newStatus })
+        .eq('id', eventId)
+
+      if (error) throw error
+
       setEvents(prev => 
         prev.map(event => 
           event.id === eventId ? { ...event, status: newStatus } : event
@@ -144,7 +151,14 @@ export default function EventsPage() {
     if (!confirm('Tem certeza que deseja excluir este evento?')) return
 
     try {
-      // Em produção, isso seria um delete no Supabase
+      const supabase = createClient()
+      const { error } = await supabase
+        .from('events')
+        .delete()
+        .eq('id', eventId)
+
+      if (error) throw error
+
       setEvents(prev => prev.filter(event => event.id !== eventId))
       toast.success('Evento excluído com sucesso')
     } catch (error) {
