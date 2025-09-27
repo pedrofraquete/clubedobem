@@ -1,26 +1,41 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, memo, useMemo, useCallback } from 'react'
 import { Menu, X, Search, Store, Heart } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import UserNav from './UserNav'
-import CartIcon from './marketplace/CartIcon'
+import dynamic from 'next/dynamic'
 import { useAuth } from '@/contexts/AuthContext'
+
+// Lazy load components that are not critical for initial render
+const UserNav = dynamic(() => import('./UserNav'), {
+  loading: () => <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse" />
+})
+
+const CartIcon = dynamic(() => import('./marketplace/CartIcon'), {
+  loading: () => <div className="w-6 h-6 bg-gray-200 rounded animate-pulse" />
+})
 
 interface UnifiedHeaderProps {
   variant?: 'main' | 'marketplace'
 }
 
-export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) {
+const UnifiedHeader = memo(function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showVendorModal, setShowVendorModal] = useState(false)
   const pathname = usePathname()
   const { user } = useAuth()
   
-  const isMarketplace = variant === 'marketplace' || pathname.includes('/marketplace') || pathname.includes('/carrinho') || pathname.includes('/favoritos')
+  // Memoize expensive computations
+  const isMarketplace = useMemo(() => 
+    variant === 'marketplace' || 
+    pathname.includes('/marketplace') || 
+    pathname.includes('/carrinho') || 
+    pathname.includes('/favoritos'),
+    [variant, pathname]
+  )
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     // Special handling for agendamento
     if (sectionId === 'agendamento') {
       window.location.href = '/agendamento'
@@ -38,9 +53,10 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
       element.scrollIntoView({ behavior: 'smooth' })
     }
     setIsMenuOpen(false)
-  }
+  }, [isMarketplace, pathname])
 
-  const categories = [
+  // Memoize categories array to prevent re-renders
+  const categories = useMemo(() => [
     { icon: '🏠', label: 'Todos', active: true },
     { icon: '🍔', label: 'Alimentação' },
     { icon: '👕', label: 'Moda' },
@@ -50,7 +66,24 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
     { icon: '🏥', label: 'Saúde' },
     { icon: '🎨', label: 'Artesanato' },
     { icon: '🌱', label: 'Sustentável' }
-  ]
+  ], [])
+
+  // Memoize navigation items
+  const mainNavItems = useMemo(() => [
+    { label: 'Início', id: 'home' },
+    { label: 'Impacto', id: 'impact' },
+    { label: 'MultiMais', id: 'multimais' },
+    { label: 'Parceiros', id: 'partners' },
+    { label: 'Agendamento', id: 'agendamento' }
+  ], [])
+
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prev => !prev)
+  }, [])
+
+  const toggleVendorModal = useCallback(() => {
+    setShowVendorModal(prev => !prev)
+  }, [])
 
   return (
     <>
@@ -98,13 +131,7 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
             {/* Navigation - Main site */}
             {!isMarketplace && (
               <ul className="hidden md:flex gap-8 list-none">
-                {[
-                  { label: 'Início', id: 'home' },
-                  { label: 'Impacto', id: 'impact' },
-                  { label: 'MultiMais', id: 'multimais' },
-                  { label: 'Parceiros', id: 'partners' },
-                  { label: 'Agendamento', id: 'agendamento' }
-                ].map((item) => (
+                {mainNavItems.map((item) => (
                   <li key={item.id}>
                     <button
                       onClick={() => scrollToSection(item.id)}
@@ -142,7 +169,7 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
               {isMarketplace && (
                 <>
                   <button
-                    onClick={() => setShowVendorModal(true)}
+                    onClick={toggleVendorModal}
                     className="flex flex-col items-center gap-1 text-gray-700 hover:text-orange-400 transition-colors"
                   >
                     <Store className="w-6 h-6" />
@@ -178,7 +205,7 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
               <UserNav />
               <button
                 className="md:hidden"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                onClick={toggleMenu}
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -208,13 +235,7 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
                 {!isMarketplace ? (
                   // Main site navigation
                   <>
-                    {[
-                      { label: 'Início', id: 'home' },
-                      { label: 'Impacto', id: 'impact' },
-                      { label: 'MultiMais', id: 'multimais' },
-                      { label: 'Parceiros', id: 'partners' },
-                      { label: 'Agendamento', id: 'agendamento' }
-                    ].map((item) => (
+                    {mainNavItems.map((item) => (
                       <button
                         key={item.id}
                         onClick={() => scrollToSection(item.id)}
@@ -249,7 +270,7 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
                       Página Inicial
                     </Link>
                     <button
-                      onClick={() => setShowVendorModal(true)}
+                      onClick={toggleVendorModal}
                       className="flex items-center gap-3 text-gray-700"
                     >
                       <Store className="w-5 h-5" />
@@ -301,7 +322,7 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold">Começar a Vender</h2>
               <button
-                onClick={() => setShowVendorModal(false)}
+                onClick={toggleVendorModal}
                 className="text-gray-500 hover:text-gray-700"
               >
                 <X className="w-6 h-6" />
@@ -378,4 +399,6 @@ export default function UnifiedHeader({ variant = 'main' }: UnifiedHeaderProps) 
       )}
     </>
   )
-}
+})
+
+export default UnifiedHeader

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { AppProvider } from "../lib/simple-store";
 import { AuthProvider } from "../contexts/AuthContext";
@@ -34,6 +35,12 @@ export default function RootLayout({
             {children}
           </AuthProvider>
         </AppProvider>
+        
+        {/* Chatbot Widget do Clube do Bem */}
+        <Script
+          src="https://api.abacus.ai/api/v0/getChatBotWidgetSDKLink?externalApplicationId=12c985db22"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
