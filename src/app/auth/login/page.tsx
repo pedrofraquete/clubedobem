@@ -61,91 +61,108 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50" suppressHydrationWarning>
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">
+      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-center">
             {isSignUp ? 'Criar conta' : 'Entrar'}
-          </CardTitle>
-          <p className="text-sm text-muted-foreground text-center">
+          </h1>
+          <p className="text-sm text-gray-600 text-center mt-2">
             {isSignUp 
               ? 'Crie sua conta para acessar o sistema' 
               : 'Entre com seu email e senha'}
           </p>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <form onSubmit={handleEmailAuth} className="space-y-4">
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Email *
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="seu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                data-testid="email-input"
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                suppressHydrationWarning
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Senha * (mínimo 6 caracteres)
-              </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Sua senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                data-testid="password-input"
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                suppressHydrationWarning
-              />
-            </div>
-            {error && (
-              <p className="text-sm text-red-600 text-center" data-testid="error-message">{error}</p>
-            )}
-            <Button 
-              type="submit" 
-              className="w-full" 
-              disabled={loading}
-              data-testid="submit-button"
-            >
-              {loading ? 'Aguarde...' : (isSignUp ? 'Criar conta' : 'Entrar')}
-            </Button>
-          </form>
-          
-          <div className="text-center">
-            <Button
-              variant="link"
-              onClick={() => {
-                console.log('Toggle clicked, current isSignUp:', isSignUp)
-                setIsSignUp(!isSignUp)
-                setError('')
-                console.log('Toggle clicked, new isSignUp:', !isSignUp)
-              }}
-              data-testid="toggle-signup"
-            >
-              {isSignUp 
-                ? 'Já tem conta? Faça login' 
-                : 'Não tem conta? Cadastre-se'}
-            </Button>
+        </div>
+        
+        <form onSubmit={handleEmailAuth} className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email *
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="seu@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              data-testid="email-input"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              suppressHydrationWarning
+            />
           </div>
           
-          {isSignUp && (
-            <div className="text-center">
-              <p className="text-xs text-gray-600">
-                Ao criar sua conta, você poderá acessar agendamentos e outras funcionalidades do sistema.
-              </p>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Senha * (mínimo 6 caracteres)
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+              data-testid="password-input"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              suppressHydrationWarning
+            />
+          </div>
+          
+          {error && (
+            <div className="text-sm text-red-600 text-center p-2 bg-red-50 rounded" data-testid="error-message">
+              {error}
             </div>
           )}
-        </CardContent>
-      </Card>
+          
+          <button 
+            type="submit" 
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={loading}
+            data-testid="submit-button"
+            onClick={(e) => {
+              console.log('Button clicked!', { email, password, isSignUp })
+            }}
+          >
+            {loading ? 'Aguarde...' : (isSignUp ? 'Criar conta' : 'Entrar')}
+          </button>
+        </form>
+        
+        <div className="text-center mt-4">
+          <button
+            type="button"
+            onClick={(e) => {
+              console.log('Toggle clicked, current isSignUp:', isSignUp)
+              setIsSignUp(!isSignUp)
+              setError('')
+              console.log('Toggle clicked, new isSignUp:', !isSignUp)
+            }}
+            data-testid="toggle-signup"
+            className="text-blue-600 hover:underline text-sm"
+          >
+            {isSignUp 
+              ? 'Já tem conta? Faça login' 
+              : 'Não tem conta? Cadastre-se'}
+          </button>
+        </div>
+        
+        {isSignUp && (
+          <div className="text-center mt-4">
+            <p className="text-xs text-gray-600">
+              Ao criar sua conta, você poderá acessar agendamentos e outras funcionalidades do sistema.
+            </p>
+          </div>
+        )}
+        
+        {/* Debug info */}
+        <div className="mt-4 p-2 bg-gray-100 rounded text-xs" style={{display: 'block'}}>
+          <div>Email: {email}</div>
+          <div>Password length: {password.length}</div>
+          <div>IsSignUp: {isSignUp ? 'true' : 'false'}</div>
+          <div>Loading: {loading ? 'true' : 'false'}</div>
+          <div>Mounted: {mounted ? 'true' : 'false'}</div>
+        </div>
+      </div>
     </div>
   )
 }
