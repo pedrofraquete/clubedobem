@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useReducer, ReactNode, useEffect, createElement } from 'react'
+import { createContext, useContext, useReducer, ReactNode, useEffect } from 'react'
 import { Product, CartItem, Filters, AppState, Action } from './types'
 
 // Initial state
@@ -188,37 +188,53 @@ const AppContext = createContext<{
   dispatch: React.Dispatch<Action>
 } | null>(null)
 
-// Provider using createElement instead of JSX
+// Provider component
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, initialState)
 
-  // Load state from localStorage on mount
+  // Load state from localStorage on mount (only once)
   useEffect(() => {
-    const savedCart = localStorage.getItem('marketplace-cart')
-    const savedFavorites = localStorage.getItem('marketplace-favorites')
-    
-    if (savedCart || savedFavorites) {
-      dispatch({
-        type: 'LOAD_STATE',
-        payload: {
-          ...state,
-          cart: savedCart ? JSON.parse(savedCart) : [],
-          favorites: savedFavorites ? JSON.parse(savedFavorites) : []
-        }
-      })
+    try {
+      const savedCart = localStorage.getItem('marketplace-cart')
+      const savedFavorites = localStorage.getItem('marketplace-favorites')
+      
+      if (savedCart || savedFavorites) {
+        dispatch({
+          type: 'LOAD_STATE',
+          payload: {
+            ...initialState, // Use initialState instead of current state to avoid loop
+            cart: savedCart ? JSON.parse(savedCart) : [],
+            favorites: savedFavorites ? JSON.parse(savedFavorites) : []
+          }
+        })
+      }
+    } catch (error) {
+      console.warn('Erro ao carregar dados do localStorage:', error)
     }
-  }, [])
+  }, []) // Empty dependency array to run only once
 
   // Save to localStorage when state changes
   useEffect(() => {
-    localStorage.setItem('marketplace-cart', JSON.stringify(state.cart))
+    try {
+      localStorage.setItem('marketplace-cart', JSON.stringify(state.cart))
+    } catch (error) {
+      console.warn('Erro ao salvar carrinho no localStorage:', error)
+    }
   }, [state.cart])
 
   useEffect(() => {
-    localStorage.setItem('marketplace-favorites', JSON.stringify(state.favorites))
+    try {
+      localStorage.setItem('marketplace-favorites', JSON.stringify(state.favorites))
+    } catch (error) {
+      console.warn('Erro ao salvar favoritos no localStorage:', error)
+    }
   }, [state.favorites])
 
-  return createElement(AppContext.Provider, { value: { state, dispatch } }, children)
+  return (
+    <AppContext.Provider value={{ state, dispatch }}>
+      {children}
+    </AppContext.Provider>
+  )
 }
 
 // Hook

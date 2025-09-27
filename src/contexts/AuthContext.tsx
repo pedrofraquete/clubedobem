@@ -46,22 +46,58 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const signUp = async (email: string, password: string, metadata?: any) => {
-    const result = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: metadata
+    try {
+      // Validar entrada para evitar caracteres problemáticos
+      const cleanEmail = email.trim().toLowerCase()
+      const cleanPassword = password.trim()
+      
+      if (!cleanEmail || !cleanPassword) {
+        throw new Error('Email e senha são obrigatórios')
       }
-    })
-    return result
+      
+      const result = await supabase.auth.signUp({
+        email: cleanEmail,
+        password: cleanPassword,
+        options: {
+          data: metadata || {}
+        }
+      })
+      
+      return result
+    } catch (error: any) {
+      console.error('Erro no cadastro:', error)
+      return {
+        error: {
+          message: error.message || 'Erro ao criar conta. Tente novamente.'
+        }
+      }
+    }
   }
 
   const signIn = async (email: string, password: string) => {
-    const result = await supabase.auth.signInWithPassword({
-      email,
-      password
-    })
-    return result
+    try {
+      // Validar entrada para evitar caracteres problemáticos
+      const cleanEmail = email.trim().toLowerCase()
+      const cleanPassword = password.trim()
+      
+      if (!cleanEmail || !cleanPassword) {
+        throw new Error('Email e senha são obrigatórios')
+      }
+      
+      const result = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password: cleanPassword
+      })
+      
+      return result
+    } catch (error: any) {
+      console.error('Erro no login:', error)
+      return {
+        error: {
+          message: error.message || 'Erro ao fazer login. Verifique suas credenciais.'
+        }
+      }
+    }
   }
 
   const signOut = async () => {
