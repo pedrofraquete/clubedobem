@@ -1,18 +1,19 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { signIn, signUp, user, loading: authLoading } = useAuth()
   const router = useRouter()
+  
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
 
   // Prevent hydration issues by only running effects after mount
   useEffect(() => {
@@ -31,6 +32,9 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
 
+    const email = emailRef.current?.value || ''
+    const password = passwordRef.current?.value || ''
+
     console.log('Form submitted:', { email, password, isSignUp })
 
     try {
@@ -48,8 +52,8 @@ export default function LoginPage() {
       } else if (isSignUp) {
         setError('Conta criada! Você pode fazer login agora.')
         setIsSignUp(false)
-        setEmail('')
-        setPassword('')
+        if (emailRef.current) emailRef.current.value = ''
+        if (passwordRef.current) passwordRef.current.value = ''
       }
     } catch (err: any) {
       console.error('Auth error:', err)
