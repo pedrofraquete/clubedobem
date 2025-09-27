@@ -15,7 +15,7 @@ function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
-  const { signIn, signUp, signInWithProvider, user } = useAuth()
+  const { signIn, signUp, user } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
 
