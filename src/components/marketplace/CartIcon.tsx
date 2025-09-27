@@ -1,12 +1,13 @@
 'use client'
 
+import { memo, useMemo } from 'react'
 import { ShoppingCart } from 'lucide-react'
 import { useApp, getCartItemCount } from '@/lib/simple-store'
 import Link from 'next/link'
 
-export default function CartIcon() {
+const CartIcon = memo(function CartIcon() {
   const { state } = useApp()
-  const itemCount = getCartItemCount(state.cart)
+  const itemCount = useMemo(() => getCartItemCount(state.cart), [state.cart])
 
   return (
     <Link href="/carrinho" className="relative inline-block">
@@ -23,4 +24,6 @@ export default function CartIcon() {
       </button>
     </Link>
   )
-}
+})
+
+export default CartIcon

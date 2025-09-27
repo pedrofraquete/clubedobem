@@ -10,11 +10,17 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint --fix",
     "type-check": "tsc --noEmit --skipLibCheck",
     "pre-deploy": "pnpm run lint && pnpm run type-check",
-    "postinstall": "echo 'Package installed successfully'"
+    "postinstall": "echo 'Package installed successfully'",
+    "perf:lighthouse": "lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json",
+    "perf:bundle": "npm run build:analyze",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

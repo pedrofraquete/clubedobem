@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, memo, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { useUserProfile } from '@/hooks/useUserProfile'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -9,7 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { User, Settings, ShoppingBag, Heart, LogOut, Package } from 'lucide-react'
 import Link from 'next/link'
 
-export default function UserNav() {
+const UserNav = memo(function UserNav() {
   const { user, signOut } = useAuth()
   const { profile } = useUserProfile()
   const [isLoading, setIsLoading] = useState(false)
@@ -103,4 +103,6 @@ export default function UserNav() {
       </DropdownMenuContent>
     </DropdownMenu>
   )
-}
+})
+
+export default UserNav

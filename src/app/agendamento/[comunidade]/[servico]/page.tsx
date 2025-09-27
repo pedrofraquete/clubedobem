@@ -1,16 +1,33 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo, useMemo, useCallback, Suspense } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Calendar, Clock, DollarSign, Users, AlertCircle, User, Phone, MessageSquare, CheckCircle } from 'lucide-react'
-import UnifiedHeader from '@/components/UnifiedHeader'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
+import dynamic from 'next/dynamic'
 import { createClient } from '@/lib/supabase'
 import { useAuth } from '@/contexts/AuthContext'
+
+// Lazy load heavy components
+const UnifiedHeader = dynamic(() => import('@/components/UnifiedHeader'), {
+  loading: () => <div className="h-16 bg-gray-100 animate-pulse" />
+})
+
+const Button = dynamic(() => import('@/components/ui/button').then(mod => ({ default: mod.Button })), {
+  loading: () => <div className="h-10 bg-gray-200 rounded animate-pulse" />
+})
+
+const Input = dynamic(() => import('@/components/ui/input').then(mod => ({ default: mod.Input })), {
+  loading: () => <div className="h-10 bg-gray-200 rounded animate-pulse" />
+})
+
+const Textarea = dynamic(() => import('@/components/ui/textarea').then(mod => ({ default: mod.Textarea })), {
+  loading: () => <div className="h-20 bg-gray-200 rounded animate-pulse" />
+})
+
+const Label = dynamic(() => import('@/components/ui/label').then(mod => ({ default: mod.Label })), {
+  loading: () => <div className="h-4 bg-gray-200 rounded animate-pulse w-20" />
+})
 
 interface Community {
   id: string
@@ -35,7 +52,7 @@ interface TimeSlot {
   booked: number
 }
 
-export default function ServiceBookingPage() {
+const ServiceBookingPage = memo(function ServiceBookingPage() {
   const params = useParams()
   const router = useRouter()
   const { user } = useAuth()
@@ -568,4 +585,6 @@ export default function ServiceBookingPage() {
       </div>
     </div>
   )
-}
+})
+
+export default ServiceBookingPage
