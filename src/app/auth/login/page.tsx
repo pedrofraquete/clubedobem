@@ -33,14 +33,19 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
 
+    console.log('Form submitted:', { email, password, isSignUp })
+
     try {
       const result = isSignUp 
         ? await signUp(email, password, { full_name: email.split('@')[0] })
         : await signIn(email, password)
       
+      console.log('Auth result:', result)
+      
       if (result.error) {
         setError(result.error.message)
-      } else if (result.data.user && !isSignUp) {
+      } else if (result.data?.user && !isSignUp) {
+        console.log('Login successful, user:', result.data.user)
         // Redirect will happen via useEffect
       } else if (isSignUp) {
         setError('Conta criada! Você pode fazer login agora.')
@@ -48,8 +53,9 @@ export default function LoginPage() {
         setEmail('')
         setPassword('')
       }
-    } catch (err) {
-      setError('Erro inesperado. Tente novamente.')
+    } catch (err: any) {
+      console.error('Auth error:', err)
+      setError(err.message || 'Erro inesperado. Tente novamente.')
     } finally {
       setLoading(false)
     }
