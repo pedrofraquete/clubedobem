@@ -67,47 +67,38 @@ export default function EventsPage() {
   const fetchEvents = async () => {
     try {
       const supabase = createClient()
-      
-      // Por enquanto vou usar dados mockados já que não temos a tabela de eventos ainda
-      // Em produção isso seria uma query real no Supabase
-      const mockEvents: Event[] = [
-        {
-          id: '1',
-          title: 'Consulta Médica Geral',
-          description: 'Consultas médicas com clínico geral para a comunidade',
-          event_date: '2025-10-10',
-          start_time: '08:00',
-          end_time: '12:00',
-          total_capacity: 20,
-          slots_per_hour: 5,
-          community_id: '1',
-          service_id: '1',
-          status: 'active',
-          created_at: '2025-09-27',
-          communities: { name: 'Heliópolis' },
-          community_services: { name: 'Consulta Médica Geral' },
-          registered_count: 12
-        },
-        {
-          id: '2',
-          title: 'Aula de Informática',
-          description: 'Curso básico de informática para iniciantes',
-          event_date: '2025-10-15',
-          start_time: '14:00',
-          end_time: '17:00',
-          total_capacity: 15,
-          slots_per_hour: 5,
-          community_id: '2',
-          service_id: '2',
-          status: 'active',
-          created_at: '2025-09-26',
-          communities: { name: 'Paraisópolis' },
-          community_services: { name: 'Aula de Informática Básica' },
-          registered_count: 8
-        }
-      ]
+      const { data, error } = await supabase
+        .from('events')
+        .select(`
+          *,
+          communities (
+            name
+          ),
+          community_services (
+            name
+          )
+        `)
+        .order('created_at', { ascending: false })
 
-      setEvents(mockEvents)
+      if (error) throw error
+
+      // Buscar contagem de inscrições para cada evento
+      const eventsWithCount = await Promise.all(
+        (data || []).map(async (event) => {
+          const { count } = await supabase
+            .from('event_registrations')
+            .select('*', { count: 'exact' })
+            .eq('event_id', event.id)
+            .eq('status', 'confirmed')
+
+          return {
+            ...event,
+            registered_count: count || 0
+          }
+        })
+      )
+
+      setEvents(eventsWithCount)
     } catch (error) {
       console.error('Erro ao carregar eventos:', error)
       toast.error('Erro ao carregar eventos')
