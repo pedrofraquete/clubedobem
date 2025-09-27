@@ -1,0 +1,27 @@
+[6.0K]  .
+├── [4.7K]  AI_RULES.md
+├── [ 11K]  LICENSE
+├── [2.9K]  README.md
+├── [ 13K]  SUPABASE_SETUP.md
+├── [ 17K]  backend_test.py
+├── [ 446]  components.json
+├── [1004]  env.template
+├── [1.2K]  eslint.config.js
+├── [ 11K]  frontend_supabase_test.py
+├── [2.7K]  next.config.ts
+├── [2.5K]  package.json
+├── [221K]  pnpm-lock.yaml
+├── [ 135]  postcss.config.mjs
+├── [5.3K]  relatorio_analise_usuario_clubedobem.md
+├── [5.1K]  sample_products.sql
+├── [2.8K]  structure.txt
+├── [6.8K]  supabase_admin_additions.sql
+├── [4.6K]  supabase_frontend_test.py
+├── [ 16K]  supabase_schema.sql
+├── [2.8K]  tailwind.config.ts
+├── [ 16K]  test_result.md
+├── [1.0K]  test_supabase.sh
+├── [   0]  tree.txt
+└── [1.0K]  tsconfig.json
+
+1 directory, 24 files
