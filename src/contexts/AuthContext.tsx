@@ -68,24 +68,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut()
   }
 
-  const signInWithProvider = async (provider: 'google' | 'github') => {
-    const result = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`
-      }
-    })
-    return result
-  }
-
   const value = {
     user,
     session,
     loading,
     signUp,
     signIn,
-    signOut,
-    signInWithProvider
+    signOut
   }
 
   return (
