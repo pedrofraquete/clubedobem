@@ -19,11 +19,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
   
   const supabase = createClient()
 
   useEffect(() => {
-    // Get initial session
+    setMounted(true)
+    
+    // Only fetch session after component is mounted (client-side)
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession()
       setSession(session)
@@ -44,6 +47,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     return () => subscription.unsubscribe()
   }, [])
+
+  // Return loading state during SSR and initial client render
+  if (!mounted) {
+    return (
+      <AuthContext.Provider value={{
+        user: null,
+        session: null,
+        loading: true,
+        signUp: async () => ({ error: { message: 'Loading...' } }),
+        signIn: async () => ({ error: { message: 'Loading...' } }),
+        signOut: async () => {},
+      }}>
+        {children}
+      </AuthContext.Provider>
+    )
+  }
 
   const signUp = async (email: string, password: string, metadata?: any) => {
     try {
