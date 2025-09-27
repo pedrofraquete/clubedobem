@@ -11,9 +11,11 @@ function getEnvVar(name: string, defaultValue?: string): string {
   return value.trim()
 }
 
-// Usar valores padrão para desenvolvimento quando as variáveis não estiverem disponíveis
-const supabaseUrl = getEnvVar('NEXT_PUBLIC_SUPABASE_URL', 'https://localhost:54321')
-const supabaseAnonKey = getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvY2FsaG9zdCIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQwOTk1MjAwLCJleHAiOjE5NTY1NzEyMDB9.test')
+// Get environment variables directly for Next.js client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://localhost:54321'
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvY2FsaG9zdCIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQwOTk1MjAwLCJleHAiOjE5NTY1NzEyMDB9.test'
+
+console.log('Supabase config:', { url: supabaseUrl, keyLength: supabaseAnonKey?.length || 0 })
 
 // Client-side Supabase client
 export function createClient() {
