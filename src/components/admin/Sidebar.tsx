@@ -11,13 +11,15 @@ import {
   Settings, 
   BarChart3, 
   UserCheck,
-  Plus
+  Plus,
+  CalendarPlus
 } from 'lucide-react'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: Home },
-  { name: 'Agendamentos', href: '/admin/agendamentos', icon: Calendar },
-  { name: 'Novo Agendamento', href: '/admin/agendamentos/novo', icon: Plus },
+  { name: 'Eventos', href: '/admin/eventos', icon: Calendar },
+  { name: 'Criar Evento', href: '/admin/eventos/novo', icon: CalendarPlus },
+  { name: 'Agendamentos', href: '/admin/agendamentos', icon: Plus },
   { name: 'Usuários', href: '/admin/usuarios', icon: Users },
   { name: 'Comunidades', href: '/admin/comunidades', icon: MapPin },
   { name: 'Relatórios', href: '/admin/relatorios', icon: BarChart3 },
