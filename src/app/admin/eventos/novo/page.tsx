@@ -166,7 +166,8 @@ export default function NewEventPage() {
     setSaving(true)
 
     try {
-      // Em produção, isso criaria um evento na tabela de eventos
+      const supabase = createClient()
+      
       const eventData = {
         title,
         description,
@@ -180,7 +181,11 @@ export default function NewEventPage() {
         status: 'active'
       }
 
-      console.log('Criando evento:', eventData)
+      const { error } = await supabase
+        .from('events')
+        .insert(eventData)
+
+      if (error) throw error
       
       toast.success('Evento criado com sucesso!')
       router.push('/admin/eventos')
